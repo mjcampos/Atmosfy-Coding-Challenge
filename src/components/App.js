@@ -1,16 +1,14 @@
 import React from 'react';
-import {Container} from 'react-bootstrap';
 import Nav from './Nav';
+import Main from './Main';
 
 function App() {
   return (
-    <div>
+    <React.Fragment>
     	<Nav/>
 
-    	<Container>
-    		App.js
-    	</Container>
-    </div>
+    	<Main/>
+    </React.Fragment>
   );
 }
 

@@ -1,4 +1,16 @@
+body {
+	background-color: #202020;
+}
+
 #Navbar {
 	background-color: #00FFFF;
 	opacity: 0.9;
+}
+
+#Main-Body > * {
+	color: white;
+}
+
+#Main-Content {
+	text-align: center;
 }
