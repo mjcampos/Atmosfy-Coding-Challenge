@@ -5,8 +5,8 @@ import * as api from '../api';
 function* getWeather(coord){
 	try{
 		// Begin by getting a user's location (long and lat)
-		const result = yield call(api.getLocation, coord);
-		console.log(result);
+		const result = yield call(api.getWeather, coord);
+		console.log(result.data);
 	}catch(e){
 	}
 }

@@ -6,11 +6,12 @@ import { getLocalWeather } from '../actions';
 class Main extends Component {
 	componentDidMount = () => {
 		navigator.geolocation.getCurrentPosition(position => {
+			console.log(position);
 			var {latitude, longitude} = position.coords;
 
 			this.props.getLocalWeather({
-				latitude,
-				longitude
+				lat: latitude,
+				lon: longitude
 			});
 		});
 	}

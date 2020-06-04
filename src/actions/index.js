@@ -1,9 +1,9 @@
 import {GET_LOCAL_WEATHER} from './constants';
 
-export const getLocalWeather = ({latitude, longitude}) => ({
+export const getLocalWeather = ({lat, lon}) => ({
 	type: GET_LOCAL_WEATHER,
 	payload: {
-		latitude,
-		longitude
+		lat,
+		lon
 	}
 });
