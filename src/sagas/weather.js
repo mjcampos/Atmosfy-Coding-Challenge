@@ -7,6 +7,7 @@ function* getWeather(coord){
 	try{
 		// Begin by getting a user's location (long and lat)
 		const result = yield call(api.getWeather, coord);
+		var weather = result.data.weather[0];
 		// console.log(result.data);
 
 		// API weather is returned as celsius, need to pass to action in both celsius and fahrenheit
@@ -16,7 +17,11 @@ function* getWeather(coord){
 		yield put(getLocalWeatherSuccess({
 			celsius_temp: celsius,
 			fahrenheit_temp: fahrenheit,
-			description: result.data.weather[0].description
+			description: weather.description,
+			main: weather.main,
+			icon: weather.icon,
+			country: result.data.sys.country,
+			city: result.data.name
 		}))
 	}catch(e){
 	}

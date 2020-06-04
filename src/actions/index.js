@@ -8,11 +8,7 @@ export const getLocalWeather = ({lat, lon}) => ({
 	}
 });
 
-export const getLocalWeatherSuccess = ({celsius_temp, fahrenheit_temp, description}) => ({
+export const getLocalWeatherSuccess = data => ({
 	type: GET_LOCAL_WEATHER_SUCCESS,
-	data: {
-		celsius_temp,
-		fahrenheit_temp,
-		description
-	}
+	data
 })

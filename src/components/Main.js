@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Row, Col, Jumbotron, Button } from 'react-bootstrap';
+import { Container, Row, Col, Jumbotron, Button, Image } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { getLocalWeather } from '../actions';
 
@@ -35,26 +35,34 @@ class Main extends Component {
 	}, () => this.displayTempType())
 
 	render() {
-		// console.log(this.props);
+		console.log(this.props);
 		const { showFahrenheit } = this.state;
-		const { celsius_temp, fahrenheit_temp } = this.props;
+		const { celsius_temp, fahrenheit_temp, city, country, icon } = this.props;
 
 		return (
 			<Container id={"Main-Body"}>
-				<Jumbotron></Jumbotron>
-
 				{(celsius_temp || fahrenheit_temp) ? (
-					<Row>
-						<Col xs={{ span: 6, offset: 3 }} id={"Main-Content"}>
-							<p>Your Temperature in</p>
+					<React.Fragment>
+						{ !icon ? (
+							<Jumbotron></Jumbotron>
+						) : null}
 
-							<p>San Jose, CA</p>
+						<Row>
+							<Col xs={{ span: 6, offset: 3 }} id={"Main-Content"}>
+								<p>The Temperature in your area:</p>
 
-							{this.displayTempType()}
+								<p>{city}, {country}</p>
 
-							<Button onClick={() => this.toggleTempType()}>Switch to {!showFahrenheit ? "Fahrenheit" : "Celsius"}</Button>
-						</Col>
-					</Row>
+								{ icon ? (
+									<Image src={icon} rounded/>
+								) : null}
+
+								{this.displayTempType()}
+
+								<Button onClick={() => this.toggleTempType()}>Switch to {!showFahrenheit ? "Fahrenheit" : "Celsius"}</Button>
+							</Col>
+						</Row>
+					</React.Fragment>
 				) : null}
 			</Container>
 		);
