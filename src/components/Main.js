@@ -1,24 +1,36 @@
-import React from 'react';
-import {Container, Row, Col, Jumbotron, Button} from 'react-bootstrap';
+import React, { Component } from 'react';
+import { Container, Row, Col, Jumbotron, Button } from 'react-bootstrap';
+import { connect } from 'react-redux';
+import { getLocalWeather } from '../actions';
 
-function Main() {
-	return (
-		<Container id={"Main-Body"}>
-			<Jumbotron></Jumbotron>
+class Main extends Component {
+	constructor(props) {
+		super(props);
 
-			<Row>
-				<Col xs={{ span: 6, offset: 3 }} id={"Main-Content"}>
-					<p>Your Temperature in</p>
+		this.props.getLocalWeather();
+	}
 
-					<p>San Jose, CA</p>
+	render() {
+		return (
+			<Container id={"Main-Body"}>
+				<Jumbotron></Jumbotron>
 
-					<p>99 Degrees Fahrenheit</p>
+				<Row>
+					<Col xs={{ span: 6, offset: 3 }} id={"Main-Content"}>
+						<p>Your Temperature in</p>
 
-					<Button>Switch to Celsius</Button>
-				</Col>
-			</Row>
-		</Container>
-	);
+						<p>San Jose, CA</p>
+
+						<p>99 Degrees Fahrenheit</p>
+
+						<Button>Switch to Celsius</Button>
+					</Col>
+				</Row>
+			</Container>
+		);
+	}
 }
 
-export default Main;
+var mapStateToProps = state => state;
+
+export default connect(mapStateToProps, {getLocalWeather})(Main);
