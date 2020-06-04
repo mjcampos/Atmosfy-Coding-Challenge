@@ -4,10 +4,15 @@ import { connect } from 'react-redux';
 import { getLocalWeather } from '../actions';
 
 class Main extends Component {
-	constructor(props) {
-		super(props);
+	componentDidMount = () => {
+		navigator.geolocation.getCurrentPosition(position => {
+			var {latitude, longitude} = position.coords;
 
-		this.props.getLocalWeather();
+			this.props.getLocalWeather({
+				latitude,
+				longitude
+			});
+		});
 	}
 
 	render() {

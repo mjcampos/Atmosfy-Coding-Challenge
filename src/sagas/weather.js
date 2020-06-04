@@ -1,18 +1,21 @@
-import {takeEvery, call, fork} from 'redux-saga/effects';
+import {take, call, fork} from 'redux-saga/effects';
 import { GET_LOCAL_WEATHER } from '../actions/constants';
 import * as api from '../api';
 
-function* getWeather(){
+function* getWeather(coord){
 	try{
 		// Begin by getting a user's location (long and lat)
-		const result = yield call(api.getLocation);
+		const result = yield call(api.getLocation, coord);
 		console.log(result);
 	}catch(e){
 	}
 }
 
 function* watchGetUsersRequest(){
-	yield takeEvery(GET_LOCAL_WEATHER, getWeather);
+	while(true) {
+		var {payload} = yield take(GET_LOCAL_WEATHER);
+		yield call(getWeather, payload);
+	}
 }
 
 const weatherSagas = [

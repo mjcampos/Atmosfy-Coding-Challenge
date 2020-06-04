@@ -1,5 +1,6 @@
-import axios from 'axios';
+// import axios from 'axios';
 
-export const getLocation = () => {
+export var getLocation = coord => {
+	console.log(coord);
 	return 1;
 }
