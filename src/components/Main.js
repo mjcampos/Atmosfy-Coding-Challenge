@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Row, Col, Button, Image } from 'react-bootstrap';
+import Loader from './Loader';
 import { connect } from 'react-redux';
 import { getLocalWeather } from '../actions';
 
@@ -41,23 +42,21 @@ class Main extends Component {
 		return (
 			<Container id={"Main-Body"}>
 				<Row>
-					{(celsius_temp || fahrenheit_temp) ? (
-						<Col xs={{ span: 6, offset: 3 }} id={"Main-Content"}>
-							<p>The Temperature in your area:</p>
+					<Col xs={{ span: 6, offset: 3 }} id={"Main-Content"}>
+						{(celsius_temp || fahrenheit_temp) ? (
+							<React.Fragment>
+								<p>The Temperature in your area:</p>
 
-							<p>{city}, {country}</p>
+								<p>{city}, {country}</p>
 
-							<Image src={icon} alt={"Weather icon"} rounded/>
+								<Image src={icon} alt={"Weather icon"} rounded/>
 
-							{this.displayTempType()}
+								{this.displayTempType()}
 
-							<Button onClick={() => this.toggleTempType()}>Switch to {!showFahrenheit ? "Fahrenheit" : "Celsius"}</Button>
-						</Col>
-					) : (
-						<Col xs={{ span: 6, offset: 3 }} id={"Main-Content"}>
-							<div className={"lds-ring"}><div></div><div></div><div></div><div></div></div>
-						</Col>
-					)}
+								<Button onClick={() => this.toggleTempType()}>Switch to {!showFahrenheit ? "Fahrenheit" : "Celsius"}</Button>
+							</React.Fragment>
+						) : <Loader/>}
+					</Col>
 				</Row>
 			</Container>
 		);
