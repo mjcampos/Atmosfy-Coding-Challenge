@@ -5,10 +5,17 @@ import * as api from '../api';
 
 function* getWeather(coord){
 	try{
-		// Begin by getting a user's location (long and lat)
-		const result = yield call(api.getWeather, coord);
-		var weather = result.data.weather[0];
-		// console.log(result.data);
+		var result, weather, icon;
+		
+		// Check if results have an icon URL. If not then call the API again
+		do {
+			// Begin by getting a user's location (long and lat)
+			result = yield call(api.getWeather, coord);
+			weather = result.data.weather[0];
+			icon = weather.icon
+		} while(!icon)
+
+		console.log(result.data);
 
 		// API weather is returned as celsius, need to pass to action in both celsius and fahrenheit
 		var celsius = result.data.main.temp;
@@ -19,7 +26,7 @@ function* getWeather(coord){
 			fahrenheit_temp: fahrenheit,
 			description: weather.description,
 			main: weather.main,
-			icon: weather.icon,
+			icon: icon,
 			country: result.data.sys.country,
 			city: result.data.name
 		}))
