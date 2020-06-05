@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Container, Row, Col, Button, Image } from 'react-bootstrap';
 import Loader from './Loader';
+import ErrorMessage from './ErrorMessage';
 import { connect } from 'react-redux';
 import { getLocalWeather } from '../actions';
 
@@ -9,11 +10,15 @@ class Main extends Component {
 		super(props);
 
 		this.state = {
-			showFahrenheit: true
+			showFahrenheit: true,
+			geolocRetrievalFailed: false,
+			geolocRetrievalFailed_message: ''
 		}
 	}
 
 	componentDidMount = () => {
+		const timeout = 30000;  // Program will wait this amount of milliseconds before timing out and triggering error callback
+
 		navigator.geolocation.getCurrentPosition(position => {
 			var {latitude, longitude} = position.coords;
 
@@ -21,6 +26,14 @@ class Main extends Component {
 				lat: latitude,
 				lon: longitude
 			});
+		}, error => {
+			// Need to notify user in UI that geolocation retrieval attempt failed
+			this.setState({
+				geolocRetrievalFailed: true,
+				geolocRetrievalFailed_message: error.message
+			});
+		}, {
+			timeout
 		});
 	}
 
@@ -36,14 +49,16 @@ class Main extends Component {
 	}, () => this.displayTempType())
 
 	render() {
-		const { showFahrenheit } = this.state;
+		const { showFahrenheit, geolocRetrievalFailed, geolocRetrievalFailed_message } = this.state;
 		const { celsius_temp, fahrenheit_temp, city, country, icon } = this.props;
 
 		return (
 			<Container id={"Main-Body"}>
 				<Row>
 					<Col xs={{ span: 6, offset: 3 }} id={"Main-Content"}>
-						{(celsius_temp || fahrenheit_temp) ? (
+						{geolocRetrievalFailed ? (
+							<ErrorMessage geolocRetrievalFailed_message={geolocRetrievalFailed_message} />
+						): (celsius_temp || fahrenheit_temp) ? (
 							<React.Fragment>
 								<p>The Temperature in your area:</p>
 
@@ -55,7 +70,7 @@ class Main extends Component {
 
 								<Button onClick={() => this.toggleTempType()}>Switch to {!showFahrenheit ? "Fahrenheit" : "Celsius"}</Button>
 							</React.Fragment>
-						) : <Loader/>}
+						): <Loader/>}
 					</Col>
 				</Row>
 			</Container>

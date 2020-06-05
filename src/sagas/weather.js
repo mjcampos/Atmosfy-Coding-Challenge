@@ -31,6 +31,7 @@ function* getWeather(coord){
 			city: result.data.name
 		}))
 	}catch(e){
+		console.log("error", e);
 	}
 }
 
