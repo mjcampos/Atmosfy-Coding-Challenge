@@ -16,12 +16,16 @@ class Main extends Component {
 		}
 	}
 
+	// When component is mounted this lifecycle method gets triggered to retrieve the user's location as the first step in collecting weather data
 	componentDidMount = () => {
 		const timeout = 30000;  // Program will wait this amount of milliseconds before timing out and triggering error callback
 
+		// Async call is made to the Geolocation API
 		navigator.geolocation.getCurrentPosition(position => {
+			// If coordinates are given then extract latitude and longitude
 			var {latitude, longitude} = position.coords;
 
+			// Pass lat and long them to the getLocalWeather action, which will trigger the Redux Saga to make the API calls to get the weather for your location
 			this.props.getLocalWeather({
 				lat: latitude,
 				lon: longitude
@@ -37,6 +41,7 @@ class Main extends Component {
 		});
 	}
 
+	// Display the temperature, either as celsius or fahrenheit
 	displayTempType = () => {
 		var { showFahrenheit } = this.state;
 		const { celsius_temp, fahrenheit_temp } = this.props;
@@ -44,6 +49,7 @@ class Main extends Component {
 		return showFahrenheit ? <p>{fahrenheit_temp.toFixed(1)}<span>&#176;</span> Fahrenheit</p> : <p>{celsius_temp.toFixed(1)}<span>&#176;</span> Celsius</p>;
 	}
 
+	// Toggle temperature type between celsius and fahrenheit
 	toggleTempType = () => this.setState({
 		showFahrenheit: !this.state.showFahrenheit
 	}, () => this.displayTempType())
